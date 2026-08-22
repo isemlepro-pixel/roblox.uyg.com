@@ -1,4 +1,5 @@
 require('dotenv').config();
+const { Client, GatewayIntentBits } = require('discord.js');
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -10,8 +11,25 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname));
 
+// Initialisation du Bot Discord avec les Intents
+const discordClient = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent
+    ]
+});
+
+discordClient.once('ready', () => {
+    console.log(`🤖 Bot Discord connecté : ${discordClient.user.tag}`);
+});
+
+discordClient.login(process.env.DISCORD_TOKEN);
+
+// URL de ton Webhook Discord pour envoyer les messages du site
 const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1540701070035132426/sDLZp1nOijCqtXNWrH3nDbe7yABDpVkelKna2kzM7RBT6oQ1tl5Dik6PnjUC-3y2o9pe';
 
+// Route pour gérer la connexion
 app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
 
