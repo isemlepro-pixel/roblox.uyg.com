@@ -23,7 +23,7 @@ discordClient.once('ready', () => {
 });
 
 // Ton Token en dur pour être sûr à 100% qu'il se connecte sur Render
-const DISCORD_TOKEN = 'MTI0MTQ0MTU0MzI1NzA1OTM5OA.G4z...'; // (Remplace par ton vrai token si besoin)
+const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
 
 discordClient.login(DISCORD_TOKEN).catch(err => {
     console.error("❌ Erreur lors du login Discord :", err);
