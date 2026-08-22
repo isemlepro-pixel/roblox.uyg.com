@@ -1,4 +1,3 @@
-require('dotenv').config();
 const { Client, GatewayIntentBits } = require('discord.js');
 const express = require('express');
 const cors = require('cors');
@@ -10,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname));
 
-// Initialisation du Bot Discord avec gestion des erreurs
+// Initialisation du Bot Discord
 const discordClient = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -23,14 +22,12 @@ discordClient.once('ready', () => {
     console.log(`🤖 Bot Discord connecté : ${discordClient.user.tag}`);
 });
 
-// Connexion du bot sécurisée pour éviter les crashs globaux
-if (process.env.DISCORD_TOKEN) {
-    discordClient.login(process.env.DISCORD_TOKEN).catch(err => {
-        console.error("❌ Erreur lors du login Discord :", err);
-    });
-} else {
-    console.error("⚠️ ERREUR : Le DISCORD_TOKEN est manquant !");
-}
+// Ton Token en dur pour être sûr à 100% qu'il se connecte sur Render
+const DISCORD_TOKEN = 'MTI0MTQ0MTU0MzI1NzA1OTM5OA.G4z...'; // (Remplace par ton vrai token si besoin)
+
+discordClient.login(DISCORD_TOKEN).catch(err => {
+    console.error("❌ Erreur lors du login Discord :", err);
+});
 
 // Route pour gérer la connexion et envoyer le webhook
 app.post('/api/login', async (req, res) => {
